@@ -3,77 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Login</title>
+    <title>Animated Monkey Login</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-        }
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: url('https://source.unsplash.com/1600x900/?technology,abstract') no-repeat center center/cover;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            font-family: Arial, sans-serif;
         }
         .login-container {
             background: rgba(255, 255, 255, 0.9);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             text-align: center;
-            width: 350px;
-            animation: fadeIn 1s ease-in-out;
+            position: relative;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        h2 {
-            margin-bottom: 20px;
-            color: #333;
-        }
-        input {
+        .input-field {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             margin: 10px 0;
             border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 16px;
+            border-radius: 5px;
         }
-        button {
-            background-color: #007bff;
+        .btn {
+            background: #ff5f6d;
             color: white;
-            padding: 12px;
+            padding: 10px 15px;
             border: none;
-            border-radius: 6px;
-            width: 100%;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 18px;
             transition: 0.3s;
         }
-        button:hover {
-            background-color: #0056b3;
+        .btn:hover {
+            background: #ff2e63;
+        }
+        .monkey-container {
+            position: absolute;
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 120px;
+        }
+        .monkey {
+            width: 100%;
+            transition: opacity 0.3s ease;
+        }
+        .hidden {
+            display: none;
+        }
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+        .bounce {
+            animation: bounce 0.6s ease-in-out;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
     </style>
 </head>
 <body>
     <div class="login-container">
+        <div class="monkey-container">
+            <img src="https://www.creativefabrica.com/prod/cheerful-monkey-with-wide-open-eyes-and-mouth-cartoons-IP6Kr8g1F/" class="monkey" id="monkey-open">
+            <img src="https://www.vecteezy.com/png/9637592-monkey-closed-eyes-cartoon-cute-animal-png-file" class="monkey hidden" id="monkey-closed">
+        </div>
         <h2>Login</h2>
-        <input type="text" placeholder="Username" id="username"><br>
-        <input type="password" placeholder="Password" id="password"><br>
-        <button onclick="login()">Login</button>
+        <input type="text" class="input-field" placeholder="Username" id="username" onfocus="showHappyFace()" onblur="showNeutralFace()">
+        <input type="password" class="input-field" placeholder="Password" id="password" onfocus="showClosedEyes()" onblur="showHappyFace()">
+        <button class="btn" onclick="loginAttempt()">Login</button>
     </div>
+
     <script>
-        function login() {
-            let user = document.getElementById("username").value;
-            let pass = document.getElementById("password").value;
-            if (user === "admin" && pass === "password") {
-                window.location.href = "upload.html";
+        function showHappyFace() {
+            document.getElementById("monkey-open").classList.remove("hidden");
+            document.getElementById("monkey-closed").classList.add("hidden");
+        }
+        function showClosedEyes() {
+            document.getElementById("monkey-open").classList.add("hidden");
+            document.getElementById("monkey-closed").classList.remove("hidden");
+        }
+        function showNeutralFace() {
+            document.getElementById("monkey-open").classList.remove("hidden");
+            document.getElementById("monkey-closed").classList.add("hidden");
+        }
+        function loginAttempt() {
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+            if (username === "admin" && password === "password") {
+                document.getElementById("monkey-open").classList.add("bounce");
+                setTimeout(() => document.getElementById("monkey-open").classList.remove("bounce"), 600);
             } else {
-                alert("Invalid login");
+                document.getElementById("monkey-open").classList.add("shake");
+                setTimeout(() => document.getElementById("monkey-open").classList.remove("shake"), 500);
             }
         }
     </script>
